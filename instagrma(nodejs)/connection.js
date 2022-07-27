@@ -17,6 +17,14 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-db.registration = require('./Models/Registration.model')(sequelize, DataTypes)
+db.registration = require('./Models/Registration.model')(sequelize, DataTypes);
+db.login = require('./Models/Login.model')(sequelize, DataTypes);
+db.addpost = require('./Models/Addpost.model')(sequelize, DataTypes);
+
+db.sequelize.sync().then(() => {
+    console.log("done");
+}).catch(console.log)
+
+module.exports = db;
 
 

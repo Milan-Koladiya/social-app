@@ -1,29 +1,47 @@
-import React from 'react'
+import axios from 'axios'
+import React, { useState } from 'react'
+import { v4 as uuidv4 } from 'uuid';
+
 
 export default function Addpost() {
+
+    const [data, setPostData] = useState({ image: '', description: '' })
+    const id = uuidv4();
+
+    const onSubmitData = async () => {
+        await axios.post('http://localhost:8080/post', {
+            id: id,
+            image: data.image,
+            description: data.description
+        }).then(function (response) {
+            console.log(response);
+        }).catch(function (error) {
+            console.log(error);
+        });
+    }
     return (
         <div>
-            <form method='post' encType='multipart/form-data'>
+            <form>
                 <table border='2'>
                     <tr>
                         <td>Image</td>
                         <td>
-                            <input type='file' name='image' />
+                            <input type='file' name='image' onChange={(e) => setPostData({ ...data, image: e.target.value })} />
                         </td>
                     </tr>
                     <tr>
                         <td>Description</td>
                         <td>
-                            <textarea rows='5' cols='25'></textarea>
+                            <input type='text' onChange={(e) => setPostData({ ...data, description: e.target.value })} ></input>
                         </td>
                     </tr>
                     <tr>
                         <td colspan='2'>
-                            <button>Addpost</button>
+                            <button onClick={() => onSubmitData()}>Addpost</button>
                         </td>
                     </tr>
                 </table>
             </form>
-        </div>
+        </div >
     )
 }
