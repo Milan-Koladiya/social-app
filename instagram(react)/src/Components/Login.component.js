@@ -13,11 +13,12 @@ export default function Login() {
     const onSubmitData = async (e) => {
         e.preventDefault();
         await axios.post('http://localhost:8080/login', {
-            // id: id,
+            id: id,
             email: data.email,
             password: data.password
         }).then(function (response) {
             console.log(response);
+            localStorage.setItem("LoginUser", JSON.stringify(response.data.user));
             navigate('/dashboard')
         }).catch(function (error) {
             console.log(error);
@@ -32,7 +33,7 @@ export default function Login() {
                     <tr>
                         <td>Email</td>
                         <td>
-                            <input type='email' placeholder='Enter Username' name='username' onChange={(e) => setLoginData({ ...data, email: e.target.value })} />
+                            <input type='email' placeholder='Enter Email' name='email' onChange={(e) => setLoginData({ ...data, email: e.target.value })} />
                         </td>
                     </tr>
                     <tr>

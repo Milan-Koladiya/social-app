@@ -5,26 +5,43 @@ import { v4 as uuidv4 } from 'uuid';
 
 export default function Registration() {
 
-    const [data, setRegister] = useState({ firstname: '', lastname: '', email: '', photo: '', password: '', username: '', dob: '' })
-    const id = uuidv4();
+    const [data, setRegister] = useState({ firstname: '', lastname: '', email: '', password: '', username: '', dob: '' })
+    const [img, setImage] = useState();
     let navigate = useNavigate();
-    const onDataSubmit = () => {
-        axios.post('http://localhost:8080/register', {
+    const id = uuidv4();
+    const uploadImage = async (e) => {
+        const file = e.target.files[0];
+        const base64 = await convertBase64Image(file);
+        setImage(base64);
+    }
+    const convertBase64Image = (file) => new Promise((resolve, reject) => {
+        const fileReader = new FileReader();
+        fileReader.onload = () => {
+            resolve(fileReader.result);
+        }
+        fileReader.onerror = (error) => {
+            reject(error)
+        }
+        fileReader.readAsDataURL(file);
+    });
+    const onDataSubmit = async (e) => {
+        e.preventDefault();
+        await axios.post('http://localhost:8080/register', {
             id: id,
             firstname: data.firstname,
             lastname: data.lastname,
             email: data.email,
-            photo: data.photo,
+            photo: img,
             password: data.password,
             username: data.username,
             dob: data.dob
         }).then(function (response) {
             console.log(response);
+            navigate('/login');
         }).catch(function (error) {
             console.log(error);
         });
 
-        navigate('/login');
     }
 
     return (
@@ -58,7 +75,7 @@ export default function Registration() {
                     <tr>
                         <td>Photo</td>
                         <td>
-                            <input type='file' name='image' onChange={(e) => setRegister({ ...data, photo: e.target.value })} />
+                            <input type='file' name='image' onChange={(e) => uploadImage(e)} />
                         </td>
                     </tr>
                     <tr>
@@ -75,7 +92,7 @@ export default function Registration() {
                     </tr>
                     <tr>
                         <td colSpan={2}>
-                            <button onClick={() => onDataSubmit()}>Submit</button>
+                            <button onClick={onDataSubmit}>Submit</button>
                         </td>
                     </tr>
                 </table>

@@ -1,20 +1,28 @@
 import axios from 'axios'
 import React, { useState } from 'react'
+import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from 'uuid';
+
 
 
 export default function Addpost() {
 
     const [data, setPostData] = useState({ image: '', description: '' })
     const id = uuidv4();
-
-    const onSubmitData = async () => {
-        await axios.post('http://localhost:8080/post', {
+    const navigate = useNavigate();
+    const getUserData = localStorage.getItem('LoginUser');
+    const getData = JSON.parse(getUserData);
+    const UserId = getData.id;
+    const onSubmitData = async (e) => {
+        e.preventDefault();
+        await axios.post('http://localhost:8080/posts', {
             id: id,
+            UserId: UserId,
             image: data.image,
             description: data.description
         }).then(function (response) {
             console.log(response);
+            navigate('/dashboard')
         }).catch(function (error) {
             console.log(error);
         });
@@ -37,7 +45,7 @@ export default function Addpost() {
                     </tr>
                     <tr>
                         <td colspan='2'>
-                            <button onClick={() => onSubmitData()}>Addpost</button>
+                            <button onClick={onSubmitData}>Addpost</button>
                         </td>
                     </tr>
                 </table>
