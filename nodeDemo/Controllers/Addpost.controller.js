@@ -3,7 +3,11 @@ const Addpost = db.addpost;
 
 async function Addpostdata(req, res) {
     try {
-        const { id, UserId, image, description } = req.body;
+        let token = req.headers;
+        console.log("Token=====================>", token.authorization);
+        let image = req.file.filename;
+        console.log(image);
+        const { id, UserId, description } = req.body;
         if (image) {
             const exitPost = await Addpost.create({ id, UserId, image, description });
             await exitPost.dataValues.save();

@@ -1,16 +1,24 @@
 const db = require('../connection');
 var bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const jwtKey = 'instagram';
 const Register = db.registration;
 
 async function Registrationdata(req, res) {
+    let photo = req.file.filename;
+    const { id, email, username } = req.body;
+    const password = bcrypt.hashSync(req.body.password, 8)
     try {
-        const { id, firstname, lastname, email, photo, username, dob } = req.body;
-        const password = bcrypt.hashSync(req.body.password, 8)
         if (email) {
             if (password) {
-                const getRegistration = await Register.create({ id, firstname, lastname, email, password, photo, username, dob });
+                const getRegistration = await Register.create({ id, email, password, photo, username });
                 await getRegistration.save();
-                res.send({ message: "Successfully Registeration Done!", status: 200, user: getRegistration })
+                jwt.sign({ getRegistration }, jwtKey, { expiresIn: '1h' }, (err, token) => {
+                    if (err) {
+                        res.send({ error: "Anything went wrong,Plese try after some time....!" });
+                    }
+                    res.send({ message: "Successfully Registeration Done!", status: 200, user: getRegistration, auth: token })
+                })
             } else {
                 res.send({ error: "Please Enter Your Password.!" })
             }

@@ -1,25 +1,25 @@
-import React, { useState,useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 
 
 export default function Profile() {
-    const [char,setChar] = useState([]);
-    const [posts,setPost] = useState([]);
+    const [char, setChar] = useState([]);
+    const [Imagepath, setImage] = useState('')
     const getUserData = localStorage.getItem('LoginUser');
     const getData = JSON.parse(getUserData);
     const id = getData.id;
     let navigate = useNavigate();
 
     useEffect(() => {
-    axios.get(`http://localhost:8080/profile/${id}`)
-        .then(function (res) {
-            setChar(res.data.user)
-            setPost(res.data.user)
-        }).catch(function (error) {
-            console.log(error);
-        });
-    },[])
+        axios.get(`http://localhost:8080/profile/${id}`)
+            .then(function (res) {
+                setChar(res.data.user)
+                setImage(`${res.data.user.photo}`);
+            }).catch(function (error) {
+                console.log(error);
+            });
+    }, [])
 
     const checkPost = () => {
         navigate('/check')
@@ -27,19 +27,19 @@ export default function Profile() {
     return (
         <div>
             <div>
-            {
-                char.map((item) =>
-                    <div>
-                        <img src={item.photo} />
-                        <h3>{item.firstname}</h3>
-                        <h3>{item.lastname}</h3>
-                        <h3>{item.username}</h3>
-                        <h3>{item.dob}</h3>
-                    </div>
-                )
-            }
+                {
+                    char.map((item) =>
+                        <div>
+                            <img src={`http://localhost:8080/uploads/user/${item.photo}`} />
+                            <h3>{item.firstname}</h3>
+                            <h3>{item.lastname}</h3>
+                            <h3>{item.username}</h3>
+                            <h3>{item.dob}</h3>
+                        </div>
+                    )
+                }
             </div>
-          <button onClick={() => checkPost()}>Check Posts</button>
+            <button onClick={() => checkPost()}>Check Posts</button>
         </div>
     )
 }

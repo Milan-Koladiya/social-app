@@ -21,7 +21,10 @@ db.registration = require('./Models/Registration.model')(sequelize, DataTypes);
 db.login = require('./Models/Login.model')(sequelize, DataTypes);
 db.addpost = require('./Models/Addpost.model')(sequelize, DataTypes);
 
-db.registration.hasMany(db.addpost)
+db.registration.hasMany(db.addpost);
+
+// db.registration.belongsToMany(db.registration, { as: "User", through: 'Followers' })
+// db.registration.belongsToMany(db.registration, { as: "", through: 'Followers' })
 
 db.sequelize.sync().then(() => {
     console.log("done");

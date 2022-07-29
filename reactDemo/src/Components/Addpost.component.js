@@ -8,24 +8,31 @@ import { v4 as uuidv4 } from 'uuid';
 export default function Addpost() {
 
     const [data, setPostData] = useState({ image: '', description: '' })
+
     const id = uuidv4();
     const navigate = useNavigate();
     const getUserData = localStorage.getItem('LoginUser');
     const getData = JSON.parse(getUserData);
     const UserId = getData.id;
+    console.log(UserId);
     const onSubmitData = async (e) => {
         e.preventDefault();
-        await axios.post('http://localhost:8080/posts', {
-            id: id,
-            UserId: UserId,
-            image: data.image,
-            description: data.description
-        }).then(function (response) {
-            console.log(response);
-            navigate('/dashboard')
-        }).catch(function (error) {
-            console.log(error);
-        });
+        const formData = new FormData();
+        formData.append('id', id)
+        formData.append('UserId', UserId)
+        formData.append('image', data.image)
+        formData.append('description', data.description)
+        await axios.post('http://localhost:8080/posts', formData, {
+            headers: {
+                Authorization: JSON.parse(localStorage.getItem('Token'))
+            }
+        })
+            .then(function (response) {
+                console.log(response);
+                navigate('/dashboard')
+            }).catch(function (error) {
+                console.log(error);
+            });
     }
     return (
         <div>
@@ -34,7 +41,7 @@ export default function Addpost() {
                     <tr>
                         <td>Image</td>
                         <td>
-                            <input type='file' name='image' onChange={(e) => setPostData({ ...data, image: e.target.value })} />
+                            <input type='file' name='image' onChange={(e) => setPostData({ ...data, image: e.target.files[0] })} />
                         </td>
                     </tr>
                     <tr>

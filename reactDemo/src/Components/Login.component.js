@@ -19,6 +19,7 @@ export default function Login() {
         }).then(function (response) {
             console.log(response);
             localStorage.setItem("LoginUser", JSON.stringify(response.data.user));
+            localStorage.setItem("Token", JSON.stringify(response.data.auth));
             navigate('/dashboard')
         }).catch(function (error) {
             console.log(error);
