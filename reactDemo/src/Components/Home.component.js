@@ -2,12 +2,14 @@ import React, { useEffect, useState } from 'react'
 import Navbar from '../Common/Navbar.common'
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
+import { v4 as uuidv4 } from 'uuid';
 
 
 export default function Home() {
     const navigate = useNavigate();
     const [data, setData] = useState([]);
     const [serch, setSerch] = useState('');
+    const Rid = uuidv4();
     const getUserData = localStorage.getItem('LoginUser');
     const getData = JSON.parse(getUserData);
     const id = getData.id;
@@ -28,11 +30,19 @@ export default function Home() {
     }
     const sendRequest = (data) => {
         const obj = {
-            reciver: data,
-            sender: getData.username,
+            id: Rid,
+            reciverId: data,
+            senderId: id,
             status: "Panding.....!"
         }
         console.log(obj);
+        axios.post('http://localhost:8080/follow', obj)
+            .then((res) => {
+                console.log(res);
+                navigate('/dashboard')
+            }).catch((err) => {
+                console.log(err);
+            })
     }
     return (
         <div>
@@ -53,14 +63,14 @@ export default function Home() {
                                     <img src={`http://localhost:8080/uploads/user/${item.photo}`} style={{ height: "50px", width: "50px", borderRadius: "120px" }} />
                                 </td>
                                 <td>
-                                    <b>{item.username}</b><button onClick={() => sendRequest(item.username)}>SendRequest</button>
+                                    <b>{item.username}</b><button onClick={() => sendRequest(item.id)}>SendRequest</button>
                                 </td>
                             </tr>
                         </table>
                     </div>)
                 }
             </div>
-            <button onClick={() => setLogOut()}>Logout</button>
+            <button onClick={setLogOut}>Logout</button>
 
         </div>
     )

@@ -3,8 +3,6 @@ const Addpost = db.addpost;
 
 async function Addpostdata(req, res) {
     try {
-        let token = req.headers;
-        console.log("Token=====================>", token.authorization);
         let image = req.file.filename;
         console.log(image);
         const { id, UserId, description } = req.body;

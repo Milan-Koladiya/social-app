@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 
+
 export default function Checkpost() {
   const [posts, setPost] = useState([]);
   const [data, setData] = useState([]);
@@ -18,7 +19,8 @@ export default function Checkpost() {
       }).catch(function (error) {
         console.log(error);
       });
-  }, [])
+  }, []);
+
   useEffect(() => {
     posts.find((i) => setData(i.Posts));
   }, [data]);
@@ -33,15 +35,15 @@ export default function Checkpost() {
       <div>
         {
 
-          data.map((item) => {
-            return <div key={item}>
+          data.map((item) =>
+            <div key={item.id}>
               <img src={`http://localhost:8080/uploads/post/${item.image}`} style={{ height: "250px", width: "300px", borderRadius: "10px" }} />
               <h4>Description:---{item.description}</h4>
             </div>
-          })
+          )
         }
       </div>
-      <button onClick={() => onCancle()}>cancle</button>
+      <button onClick={onCancle}>cancle</button>
     </div>
   )
 }

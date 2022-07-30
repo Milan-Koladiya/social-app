@@ -13,7 +13,7 @@ async function Registrationdata(req, res) {
             if (password) {
                 const getRegistration = await Register.create({ id, email, password, photo, username });
                 await getRegistration.save();
-                jwt.sign({ getRegistration }, jwtKey, { expiresIn: '1h' }, (err, token) => {
+                jwt.sign({ getRegistration }, jwtKey, (err, token) => {
                     if (err) {
                         res.send({ error: "Anything went wrong,Plese try after some time....!" });
                     }

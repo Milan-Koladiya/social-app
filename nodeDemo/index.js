@@ -6,7 +6,10 @@ const LoginData = require('./Controllers/Login.controller');
 const Registrationdata = require('./Controllers/Registration.controller');
 const CheckProfile = require('./Controllers/Profile.controller');
 const Serch = require('./Controllers/Serch.controller');
-const VerifyToken = require('./middleware/VerifyToken')
+const VerifyToken = require('./middleware/VerifyToken');
+const Follow = require('./Controllers/Follow.controller');
+const getFollower = require('./Controllers/getFollower.comtroller');
+const findUser = require('./Controllers/FindUser.cotroller');
 const app = express();
 
 app.use('/uploads', express.static('uploads'))
@@ -17,9 +20,12 @@ const user = multer({ dest: 'uploads/user' })
 const post = multer({ dest: 'uploads/post' })
 
 app.post('/register', user.single('image'), Registrationdata);
+app.get('/user', findUser);
+app.post('/follow', Follow);
 app.post('/login', LoginData);
 app.post('/posts', post.single('image'), VerifyToken, Addpostdata);
 app.get('/profile/:id', CheckProfile);
 app.get('/serch', Serch);
+app.get('/followers', getFollower);
 
 app.listen(8080);

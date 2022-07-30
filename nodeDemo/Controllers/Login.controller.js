@@ -13,7 +13,7 @@ async function LoginData(req, res) {
         if (exitEmail) {
             const checkPassword = await bcrypt.compareSync(password, exitEmail.dataValues.password);
             if (checkPassword) {
-                jwt.sign({ checkPassword }, jwtKey, { expiresIn: '1h' }, (err, token) => {
+                jwt.sign({ checkPassword }, jwtKey, (err, token) => {
                     if (err) {
                         res.send({ error: "Anything went wrong,Plese try after some time....!" });
                     }
