@@ -14,7 +14,6 @@ export default function Addpost() {
     const getUserData = localStorage.getItem('LoginUser');
     const getData = JSON.parse(getUserData);
     const UserId = getData.id;
-    console.log(UserId);
     const onSubmitData = async (e) => {
         e.preventDefault();
         const formData = new FormData();
@@ -29,10 +28,14 @@ export default function Addpost() {
         })
             .then(function (response) {
                 console.log(response);
-                navigate('/dashboard')
+                navigate('/')
             }).catch(function (error) {
                 console.log(error);
             });
+    }
+
+    const onCancle = () => {
+        navigate('/')
     }
     return (
         <div>
@@ -53,6 +56,7 @@ export default function Addpost() {
                     <tr>
                         <td colspan='2'>
                             <button onClick={onSubmitData}>Addpost</button>
+                            <button onClick={onCancle}>cancle</button>
                         </td>
                     </tr>
                 </table>

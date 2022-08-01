@@ -4,7 +4,19 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             primaryKey: true,
             allowNull: false
-        }
+        },
+        sendername: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        recivername: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        status: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false
+        },
     }, {
         createdAt: false,
         updatedAt: false,

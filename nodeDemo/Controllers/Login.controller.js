@@ -8,7 +8,6 @@ const Register = db.registration;
 async function LoginData(req, res) {
     try {
         const { email, password } = req.body;
-        console.log(email, password);
         const exitEmail = await Register.findOne({ where: { email: email } });
         if (exitEmail) {
             const checkPassword = await bcrypt.compareSync(password, exitEmail.dataValues.password);

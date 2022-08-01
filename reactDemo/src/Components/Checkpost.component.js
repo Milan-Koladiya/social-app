@@ -5,8 +5,8 @@ import { useNavigate } from 'react-router-dom';
 
 
 export default function Checkpost() {
-  const [posts, setPost] = useState([]);
-  const [data, setData] = useState([]);
+  const [post, setPost] = useState();
+  const [data, setData] = useState();
   const navigate = useNavigate();
   const getUserData = localStorage.getItem('LoginUser');
   const getData = JSON.parse(getUserData);
@@ -15,18 +15,24 @@ export default function Checkpost() {
   useEffect(() => {
     axios.get(`http://localhost:8080/profile/${id}`)
       .then(function (res) {
-        setPost(res.data.user)
+        setData(res.data.user)
       }).catch(function (error) {
         console.log(error);
       });
   }, []);
 
+  const userinfo = data;
+  const userarr = userinfo || [];
+
   useEffect(() => {
-    posts.find((i) => setData(i.Posts));
+    userarr.find((item) => setPost(item.Posts));
   }, [data]);
 
+  const postinfo = post;
+  const postarr = postinfo || [];
+
   const onCancle = () => {
-    navigate('/dashboard')
+    navigate('/')
   }
 
 
@@ -35,7 +41,7 @@ export default function Checkpost() {
       <div>
         {
 
-          data.map((item) =>
+          postarr.map((item) =>
             <div key={item.id}>
               <img src={`http://localhost:8080/uploads/post/${item.image}`} style={{ height: "250px", width: "300px", borderRadius: "10px" }} />
               <h4>Description:---{item.description}</h4>

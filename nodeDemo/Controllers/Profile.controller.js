@@ -4,7 +4,7 @@ const post = db.addpost;
 
 async function CheckProfile(req, res) {
     try {
-        const {id} = req.params;
+        const { id } = req.params;
         const checkProfile = await user.findAll({
             include: [{ model: post }],
             where: { id: id }

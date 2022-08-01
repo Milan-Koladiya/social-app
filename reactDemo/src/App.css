@@ -24,6 +24,11 @@
   color: white;
 }
 
+body {
+  background: linear-gradient(40deg, #66FFFF 1%, #FF00FF 100%);
+  background-attachment: fixed;
+}
+
 .App-link {
   color: #61dafb;
 }
