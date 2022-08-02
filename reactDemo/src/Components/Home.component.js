@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import Navbar from '../Common/Navbar.common'
-import { useNavigate } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
 
 
 export default function Home() {
-    const navigate = useNavigate();
+    const history = useHistory();
     const [data, setData] = useState([]);
     const [user, setUser] = useState();
     const [post, setPost] = useState();
@@ -29,7 +29,7 @@ export default function Home() {
     }, [])
     const setLogOut = () => {
         localStorage.clear();
-        navigate('/login')
+        history.push('/login')
     }
     const sendRequest = (data) => {
         const obj = {
@@ -44,7 +44,7 @@ export default function Home() {
         axios.post('http://localhost:8080/follow', obj)
             .then((res) => {
                 console.log(res);
-                navigate('/')
+                history.push('/')
             }).catch((err) => {
                 console.log(err);
             })

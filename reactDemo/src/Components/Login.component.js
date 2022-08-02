@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useNavigate } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { v4 as uuidv4 } from 'uuid';
 import axios from 'axios';
 
@@ -8,7 +8,7 @@ import axios from 'axios';
 export default function Login() {
     const [data, setLoginData] = useState({ email: '', password: '' });
     const id = uuidv4();
-    const navigate = useNavigate();
+    const history = useHistory();
 
     const onSubmitData = async (e) => {
         e.preventDefault();
@@ -20,11 +20,14 @@ export default function Login() {
             console.log(response);
             localStorage.setItem("LoginUser", JSON.stringify(response.data.user));
             localStorage.setItem("Token", JSON.stringify(response.data.auth));
-            navigate('/')
+            history.push('/')
         }).catch(function (error) {
             console.log(error);
         });
+    }
 
+    const setSignup = () => {
+        history.push('/signup')
     }
 
     return (
@@ -46,6 +49,7 @@ export default function Login() {
                     <tr>
                         <td colspan='2'>
                             <button onClick={onSubmitData}>Login</button>
+                            <button onClick={setSignup}>Signup</button>
                         </td>
                     </tr>
                 </table>

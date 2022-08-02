@@ -1,12 +1,12 @@
 import React, { useState } from 'react'
-import { useNavigate } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
 
 export default function Registration() {
 
     const [data, setRegister] = useState({ firstname: '', lastname: '', email: '', photo: '', password: '', username: '', dob: '' })
-    let navigate = useNavigate();
+    let history = useHistory();
     const id = uuidv4();
     const onDataSubmit = async (e) => {
         e.preventDefault();
@@ -17,10 +17,11 @@ export default function Registration() {
         formData.append('image', data.photo)
         formData.append('password', data.password)
         formData.append('username', data.username)
+        console.log(formData);
         await axios.post('http://localhost:8080/register', formData)
             .then(function (response) {
                 console.log(response);
-                navigate('/login');
+                history.push('/login');
             }).catch(function (error) {
                 console.log(error);
             });

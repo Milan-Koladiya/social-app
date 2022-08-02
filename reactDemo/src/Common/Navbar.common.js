@@ -1,16 +1,16 @@
 import React from 'react'
-import { useNavigate } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 
 
 export default function Navbar() {
-    const navigate = useNavigate();
+    const history = useHistory();
 
     const post = () => {
-        navigate('/post')
+        history.push('/post')
     }
     const profile = () => {
-        navigate('/profile')
+        history.push('/profile')
     }
     return (
         <ul>

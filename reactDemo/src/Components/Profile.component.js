@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios';
-import { useNavigate } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { v4 as uuidv4 } from 'uuid';
 
 
@@ -14,7 +14,7 @@ export default function Profile() {
     const getData = JSON.parse(getUserData);
     const id = getData.id;
 
-    let navigate = useNavigate();
+    const history = useHistory();
 
 
     useEffect((e) => {
@@ -40,7 +40,7 @@ export default function Profile() {
     const exitfollowing = arr.filter((data) => data.senderId === id);
 
     const checkPost = () => {
-        navigate('/userpost')
+        history.push('/userpost')
     }
 
     const exitfollower = arr.filter((data) => data.reciverId === id);
@@ -57,14 +57,18 @@ export default function Profile() {
         axios.post('http://localhost:8080/follow', obj)
             .then((res) => {
                 console.log(res);
-                navigate('/')
+                history.push('/')
             }).catch((err) => {
                 console.log(err);
             })
         console.log(">>>>>>>", data.sendername);
     }
 
-    const updatePost = (userid) => {
+    const updatePost = (Id, photo, email, password, username) => {
+        // console.log("User>>>>>>>>", email);
+        // console.log("User>>>>>>>>", password);
+        // console.log("User>>>>>>>>", username);
+        history.push({ pathname: "/update", state: { Id, photo, email, password, username } })
     }
     return (
         <div>
@@ -88,11 +92,8 @@ export default function Profile() {
                     char.map((item) =>
                         <div key={item.id}>
                             <img src={`http://localhost:8080/uploads/user/${item.photo}`} />
-                            <button onClick={() => updatePost(item.id)}>Updatepost</button>
-                            <h3>{item.firstname}</h3>
-                            <h3>{item.lastname}</h3>
                             <h3>{item.username}</h3>
-                            <h3>{item.dob}</h3>
+                            <button onClick={() => updatePost(item.id, item.photo, item.email, item.password, item.username)}>Updatepost</button>
                         </div>
                     )
                 }

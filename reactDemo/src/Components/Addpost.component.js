@@ -1,6 +1,6 @@
 import axios from 'axios'
 import React, { useState } from 'react'
-import { useNavigate } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { v4 as uuidv4 } from 'uuid';
 
 
@@ -10,7 +10,7 @@ export default function Addpost() {
     const [data, setPostData] = useState({ image: '', description: '' })
 
     const id = uuidv4();
-    const navigate = useNavigate();
+    const history = useHistory();
     const getUserData = localStorage.getItem('LoginUser');
     const getData = JSON.parse(getUserData);
     const UserId = getData.id;
@@ -28,14 +28,14 @@ export default function Addpost() {
         })
             .then(function (response) {
                 console.log(response);
-                navigate('/')
+                history.push('/')
             }).catch(function (error) {
                 console.log(error);
             });
     }
 
     const onCancle = () => {
-        navigate('/')
+        history.push('/')
     }
     return (
         <div>

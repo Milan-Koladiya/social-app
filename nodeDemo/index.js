@@ -26,6 +26,6 @@ app.post('/posts', post.single('image'), VerifyToken, Addpostdata);
 app.get('/profile/:id', CheckProfile);
 app.get('/serch', Serch);
 app.get('/followers', getFollower);
-app.put('/update/:id', updateUser);
+app.post('/update/:id', updateUser);
 
 app.listen(8080);

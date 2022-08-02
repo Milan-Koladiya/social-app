@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 
 
 export default function Checkpost() {
   const [post, setPost] = useState();
   const [data, setData] = useState();
-  const navigate = useNavigate();
+  const history = useHistory();
   const getUserData = localStorage.getItem('LoginUser');
   const getData = JSON.parse(getUserData);
   const id = getData.id;
@@ -32,7 +32,7 @@ export default function Checkpost() {
   const postarr = postinfo || [];
 
   const onCancle = () => {
-    navigate('/')
+    history.push('/')
   }
 
 
