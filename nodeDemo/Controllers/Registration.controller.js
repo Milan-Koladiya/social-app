@@ -6,7 +6,6 @@ const Register = db.registration;
 
 async function Registrationdata(req, res) {
     let photo = req.file.filename;
-    console.log(req.file);
     const { id, email, username } = req.body;
     const password = bcrypt.hashSync(req.body.password, 8)
     try {
@@ -34,3 +33,4 @@ async function Registrationdata(req, res) {
 };
 
 module.exports = Registrationdata;
+

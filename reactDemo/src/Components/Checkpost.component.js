@@ -43,7 +43,7 @@ export default function Checkpost() {
 
           postarr.map((item) =>
             <div key={item.id}>
-              <img src={`http://localhost:8080/uploads/post/${item.image}`} style={{ height: "250px", width: "300px", borderRadius: "10px" }} />
+              <img src={`http://localhost:8080/Controllers/uploads/post/${item.image}`} style={{ height: "250px", width: "300px", borderRadius: "10px" }} />
               <h4>Description:---{item.description}</h4>
             </div>
           )

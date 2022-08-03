@@ -12,12 +12,12 @@ const getFollower = require('./Controllers/getFollower.comtroller');
 const updateUser = require('./Controllers/updateUser');
 const app = express();
 
-app.use('/uploads', express.static('uploads'))
+app.use('/Controllers/uploads', express.static('Controllers/uploads'))
 app.use(express.json());
 app.use(cors());
 
-const user = multer({ dest: 'uploads/user' })
-const post = multer({ dest: 'uploads/post' })
+const user = multer({ dest: 'Controllers/uploads/user' })
+const post = multer({ dest: 'Controllers/uploads/post' })
 
 app.post('/register', user.single('image'), Registrationdata);
 app.post('/follow', Follow);
@@ -26,6 +26,6 @@ app.post('/posts', post.single('image'), VerifyToken, Addpostdata);
 app.get('/profile/:id', CheckProfile);
 app.get('/serch', Serch);
 app.get('/followers', getFollower);
-app.post('/update/:id', updateUser);
+app.post('/update/:id', user.single('image'), updateUser);
 
 app.listen(8080);

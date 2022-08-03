@@ -10,6 +10,7 @@ export default function Home() {
     const [data, setData] = useState([]);
     const [user, setUser] = useState();
     const [post, setPost] = useState();
+    const [followpost, setFollowpost] = useState();
     const [following, setFollowing] = useState();
     const [serch, setSerch] = useState('');
     const Rid = uuidv4();
@@ -51,39 +52,38 @@ export default function Home() {
     }
 
 
-    // useEffect(() => {
-    //     axios.get(`http://localhost:8080/followers  `)
-    //         .then(function (res) {
-    //             console.log(res);
-    //             setFollowing(res.data.user);
-    //         }).catch(function (error) {
-    //             console.log(error);
-    //         });
-    // }, [])
-    // const followingData = following;
-    // const arr = followingData || [];
-    // const exitfollowing = arr.find((data) => data?.status === true && data?.reciverId === id);
+    useEffect(() => {
+        axios.get(`http://localhost:8080/followers  `)
+            .then(function (res) {
+                console.log(res);
+                setFollowing(res.data.user);
+            }).catch(function (error) {
+                console.log(error);
+            });
+    }, [])
+    const followingData = following;
+    const arr = followingData || [];
+    const exitfollowing = arr.find((data) => data?.status === true && data?.reciverId === id);
+    const exitFollow = arr.find((data) => data?.status === true && data?.reciverId);
 
-    // useEffect(() => {
-    //     axios.get(`http://localhost:8080/profile/${id}`)
-    //         .then(function (res) {
-    //             setUser(res.data.user);
-    //         }).catch(function (error) {
-    //             console.log(error);
-    //         });
-    // }, [])
+    useEffect(() => {
+        axios.get(`http://localhost:8080/profile/${id}`)
+            .then(function (res) {
+                setUser(res.data.user);
+            }).catch(function (error) {
+                console.log(error);
+            });
+    }, [])
 
-    // const userinfo = user;
-    // const userarr = userinfo || [];
-    // const Userdata = userarr.filter((data) => data?.id === exitfollowing?.reciverId)
-    // useEffect(() => {
-    //     Userdata.find((item) => setPost(item.Posts));
-    // }, [user]);
-
-    // const postinfo = post;
-    // const postarr = postinfo || [];
-    // console.log("postarr==========>", postarr);
-
+    const userinfo = user;
+    const userarr = userinfo || [];
+    const Userdata = userarr.filter((data) => data?.id === exitfollowing?.reciverId || data?.id === exitFollow?.senderId)
+    console.log("Userdata>>>>>", Userdata);
+    useEffect(() => {
+        Userdata.find((item) => setPost(item.Posts));
+    }, [user]);
+    const postinfo = post;
+    const postarr = postinfo || [];
     return (
         <div>
             <Navbar />
@@ -100,7 +100,7 @@ export default function Home() {
                         <table align='center'>
                             <tr>
                                 <td>
-                                    <img src={`http://localhost:8080/uploads/user/${item.photo}`} style={{ height: "50px", width: "50px", borderRadius: "120px" }} />
+                                    <img src={`http://localhost:8080/Controllers/uploads/user/${item.photo}`} style={{ height: "50px", width: "50px", borderRadius: "120px" }} />
                                 </td>
                                 <td>
                                     <b>{item.username}</b><button onClick={() => sendRequest(item)}>SendRequest</button>
@@ -110,11 +110,21 @@ export default function Home() {
                     </div>)
                 }
             </div>
-            {/* <div>
+            <div style={{ marginTop: "100px" }}>
                 {
                     postarr.map((data) =>
                         <div key={data.id}>
-                            <img src={`http://localhost:8080/uploads/post/${data.image}`} style={{ height: "250px", width: "300px", borderRadius: "10px" }} />
+                            <img src={`http://localhost:8080/Controllers/uploads/post/${data.image}`} style={{ height: "250px", width: "300px", borderRadius: "10px" }} />
+                            <h4>Description:---{data.description}</h4>
+                        </div>
+                    )
+                }
+            </div>
+            {/* <div>
+                {
+                    followarr.map((data) =>
+                        <div key={data.id}>
+                            <img src={`http://localhost:8080/Controllers/uploads/post/${data.image}`} style={{ height: "250px", width: "300px", borderRadius: "10px" }} />
                             <h4>Description:---{data.description}</h4>
                         </div>
                     )

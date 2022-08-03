@@ -57,7 +57,7 @@ export default function Registration() {
                     </tr>
                     <tr>
                         <td colSpan={2}>
-                            <button onClick={onDataSubmit}>Submit</button>
+                            <button onClick={onDataSubmit}>Submit</button>  
                         </td>
                     </tr>
                 </table>

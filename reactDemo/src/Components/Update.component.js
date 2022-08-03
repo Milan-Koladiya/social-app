@@ -23,15 +23,15 @@ export default function Update() {
             setUpdateusername(Profile.username)
         }
     }, [location.state]);
-    console.log(">>>>>>", updatephoto);
-    const submitData = (e) => {
+    const submitData = async (e) => {
         e.preventDefault();
         const formData = new FormData();
         formData.append('image', updatephoto)
         formData.append('email', updateemail)
         formData.append('password', updatepassword)
         formData.append('username', updateusername)
-        axios.post(`http://localhost:8080/update/${updateid}`, formData)
+
+        await axios.post(`http://localhost:8080/update/${updateid}`, formData)
             .then((res) => {
                 console.log(res);
             }).catch((err) => {

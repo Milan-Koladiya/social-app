@@ -65,9 +65,6 @@ export default function Profile() {
     }
 
     const updatePost = (Id, photo, email, password, username) => {
-        // console.log("User>>>>>>>>", email);
-        // console.log("User>>>>>>>>", password);
-        // console.log("User>>>>>>>>", username);
         history.push({ pathname: "/update", state: { Id, photo, email, password, username } })
     }
     return (
@@ -91,7 +88,7 @@ export default function Profile() {
                 {
                     char.map((item) =>
                         <div key={item.id}>
-                            <img src={`http://localhost:8080/uploads/user/${item.photo}`} />
+                            <img src={`http://localhost:8080/Controllers/uploads/user/${item.photo}`} />
                             <h3>{item.username}</h3>
                             <button onClick={() => updatePost(item.id, item.photo, item.email, item.password, item.username)}>Updatepost</button>
                         </div>

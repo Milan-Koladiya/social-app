@@ -15,7 +15,8 @@ function App() {
   let jwt = localStorage.getItem('Token')
   if (jwt) {
     history.push('/')
-  } else {
+  }
+  else {
     history.push('/login')
   }
   return (
